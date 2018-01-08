@@ -2,3 +2,4 @@ myvenv
 *.pyc
 .env
 development.py
+db.sqlite3

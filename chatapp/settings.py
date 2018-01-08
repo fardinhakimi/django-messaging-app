@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!t6ioq_t4k-%thq#(#71)zcnihhoo&tb%gvxc-0=#niafd*6o)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'chatapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+'''
 if DEBUG:
     DATABASES = {
     'default': {
@@ -87,8 +88,9 @@ if DEBUG:
     }
     }
 else:
+'''
 
-    DATABASES = {'default': dj_database_url.config(
+DATABASES = {'default': dj_database_url.config(
         default='postgres://qpaauvcckspyht:fdf564e230f7343bd3fbac08d775b1b3ca63d0b9557415c30a586f401316a467@ec2-50-19-126-219.compute-1.amazonaws.com:5432/d2627imqoo99q8'
     )}
 
