@@ -87,9 +87,10 @@ if DEBUG:
     }
     }
 else:
-    DATABASES['default'] = dj_database_url.config(
+
+    DATABASES = {'default': dj_database_url.config(
         default='postgres://qpaauvcckspyht:fdf564e230f7343bd3fbac08d775b1b3ca63d0b9557415c30a586f401316a467@ec2-50-19-126-219.compute-1.amazonaws.com:5432/d2627imqoo99q8'
-    )
+    )}
 
 
 # Password validation
