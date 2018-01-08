@@ -25,6 +25,7 @@ SECRET_KEY = '!t6ioq_t4k-%thq#(#71)zcnihhoo&tb%gvxc-0=#niafd*6o)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+PRODUCTION_DB = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,20 +80,19 @@ WSGI_APPLICATION = 'chatapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-'''
-if DEBUG:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-    }
-else:
-'''
 
-DATABASES = {'default': dj_database_url.config(
-        default='postgres://qpaauvcckspyht:fdf564e230f7343bd3fbac08d775b1b3ca63d0b9557415c30a586f401316a467@ec2-50-19-126-219.compute-1.amazonaws.com:5432/d2627imqoo99q8'
+if PRODUCTION_DB:
+    DATABASES = {'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
     )}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 
 
 # Password validation

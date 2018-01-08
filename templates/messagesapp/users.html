@@ -54,9 +54,17 @@
             </div>
 
             <div class="chat-info col-md-7 col-lg-7 col-sm-6 col-xs-8 pull-left">
+
+                {% if users %}
                 <p>
                     Click on a user to start a conversation!
                 </p>
+                {%else%}
+                <p>
+                    You are the only user in the system!
+                </p>
+                {%endif%}
+
             </div>
 
             <div class="user-details-box col-md-3 col-sm-3 col-md-3 hidden-xs  no-margin">
