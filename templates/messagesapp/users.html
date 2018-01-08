@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load messages_tags %}
+{% block main %}
+
+    <div class="wrapper">
+
+        <div class="chat-container">
+            <div class="chat-aside col-md-2 col-sm-3 col-xs-4 pull-left no-padding">
+                    <div class="visible-xs-12 hidden-sm hidden-md hidden-lg no-padding" style="border-bottom: solid 1px #372075;">
+                            <a style="color:#dfdfef;" class="navbar-brand" href="{% url 'accounts:logout' %}">
+                                    Logout
+                            </a>
+                    </div>
+                <div class="aside-title"><p>Users</p></div>
+                <ul class="all-users">
+
+                    {% for user in users %}
+
+                    {% get_unread_messages user.pk request.user.pk as un_read_num%}
+
+
+                    <li class="user-item" id="{{user.pk}}">
+
+                        {% if un_read_num != 0 %}
+                        <span id="username" class="unread-active">{{user.username}} <span class="unread-notify">{{un_read_num}}</span></span>
+                        {%else%}
+                        <span>{{user.username}}</span>
+                        {%endif%}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+              
+
+            </div>
+
+
+            <div class="chat-main hidden col-md-7 col-lg-7 col-sm-6 col-xs-8 pull-left no-padding">
+
+                <div class="messages-box conversation">
+                    <ul id="message-list">
+                    </ul>
+                </div>
+
+                <div class="chat-box col-md-12 col-sm-12 col-xs-12 no-margin">
+                    <form id="message-form" name="messageForm" action="" method="post" role="form">
+                            {%csrf_token%}
+                            <input type="text" id="message" class="message input-lg col-md-10 col-xs-12 col-sm-10" placeholder="Type your message here">
+                    </form>
+                </div>
+            </div>
+
+            <div class="chat-info col-md-7 col-lg-7 col-sm-6 col-xs-8 pull-left">
+                <p>
+                    Click on a user to start a conversation!
+                </p>
+            </div>
+
+            <div class="user-details-box col-md-3 col-sm-3 col-md-3 hidden-xs  no-margin">
+
+                <div class="no-margin form-body-header">
+                <span>Profile:</span>
+                </div>
+
+                <div class="details-area">
+                    {% get_stats request.user.pk as stats %}
+                    <p>
+                        <span>Username:</span><span>{{request.user.username}}</span>
+                    </p>
+                    <p>
+                        <span>Status:</span><span>Online</span>
+                    </p>
+                   
+                </div>
+
+                <div class="no-margin form-body-header">
+                        <span>Stats:</span>
+                </div>
+
+                <div class="details-area">
+                        {% get_stats request.user.pk as stats %}
+                        <p>
+                            <span>Conversations:</span>{{stats.conversations}}<span></span>
+                        </p>
+                        <p>
+                            <span>sent messages:</span><span>{{stats.sent_messages}}</span>
+                        </p>
+                        <p>
+                            <span>received messages:</span><span>{{stats.received_messages}}</span>
+                        </p>
+                    </div>
+
+                <div class="no-margin form-body-header">
+                        <span>Settings:</span>
+                </div>
+            <div class="details-area">   
+                <p>
+             <span><a href="{% url 'accounts:logout' %}">
+                    Logout
+                </a></span>
+              </p>
+            </div>
+                        
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{%block js%}
+<script src="{% static '/js/messages.js' %}"></script>
+{%endblock js%}
