@@ -1,2 +1,8 @@
 Django==2.0.1
 pytz==2017.3
+dj-database-url
+dj-static
+django-toolbelt
+gunicorn
+psycopg2
+whitenoise
