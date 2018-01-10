@@ -40,7 +40,6 @@ height: 100%;
     box-shadow: 0 1px 0 rgba(0,0,0,.25);
     padding: 40px 30px;
     position: relative;
-    border: 1px solid #e8e8e8;
 }
 
 .form-box  input {
