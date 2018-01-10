@@ -87,8 +87,9 @@ function postMessage(sendData){
 
                 for (let i=0; i<messages.length; i++){
                     messageItem = renderMessageItem(messages[i], data.members);
-                    messageList.append(messageItem);
+                   messageList.append(messageItem);
                 }
+            
             }
             return true;
         })
@@ -106,7 +107,8 @@ function postMessage(sendData){
                 senderId = members.sender.id,
                 ownerId = messageData.fields.owner,
                 sender = members.sender,
-                recipient = members.recipient;
+                recipient = members.recipient,
+                messageItem = '';
 
             if (senderId == ownerId){
                 messageItem= renderMessage(message, sender, 
@@ -126,6 +128,9 @@ function postMessage(sendData){
         function renderMessage(message, user, directionClass){
             return `
             <li> 
+            <span class='${directionClass.usernameDirection}'>
+            ${user.username[0]}
+            </span>
             <span class='message-box ${directionClass.messageDirection}'>
             ${message}
             </span>

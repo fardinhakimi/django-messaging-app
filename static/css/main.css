@@ -24,6 +24,10 @@ height: 100%;
     .chat-aside{
         border-radius: 0px !important;
     }
+
+    .username-recipient, .username-sender{
+        width: 15% !important;
+    }
 }
 
 
@@ -242,7 +246,7 @@ padding-right: 10px;
 
 #message-list li{
     width: 100%;
-    min-height: 60px;
+    min-height: 100px;
 }
 
 #message-list .message-box{
@@ -250,7 +254,7 @@ padding-right: 10px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     min-width: 50%;
-    max-width: 70%;
+    max-width: 72%;
     padding: 10px;
     height: inherit;
     overflow-wrap: break-word;
@@ -264,25 +268,39 @@ padding-right: 10px;
     border-bottom-right-radius: 0px !important;
     color: #4e4e4e;
     float: right;
-    margin-right: 5%;
+    margin-right: 2%;
 }
 .message-recipient{
     background-color: #9899d7;
     border-top-left-radius: 0px !important;
     color: #f5f5f5;
     float: left;
-    margin-left: 5%;
+    margin-top: 4%;
+    margin-left: 2%;
 }
 .username-recipient{
-    color: #555;
-    text-align: left;
-    margin-left: 5%;
+    color: #4e4e4e;
+    text-align: center;
+    margin-left: 2%;
+    border: solid 1px #f1f1fb;
+    border-radius: 100px;
+    padding: 10px;
+    background-color: #f1f1fb;
+    width: 7%;
+    float: left
 }
 
 .username-sender{
-    color: #555;
-    text-align: right;
-    margin-right: 5%;
+    color: #f5f5f5;
+    text-align: center;
+    margin-right: 2%;
+    border: solid 1px #9899d7;
+    border-radius: 100px;
+    background-color: #9899d7;
+    padding: 10px;
+    margin-top: 4%;
+    width: 7%;
+    float: right
 }
 
 .all-users li {
