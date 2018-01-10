@@ -124,20 +124,19 @@ function postMessage(sendData){
         }
 
         function renderMessage(message, user, directionClass){
-            let messageItem = $("<li></li>");
-            //let userHandle = $("<p>"+user.username+"</p>");
-            //userHandle.addClass(directionClass.usernameDirection);
-            let messageBody = $("<span>"+message+"</span>");
-            messageBody.addClass('message-box '+directionClass.messageDirection);
-            messageItem.append(messageBody);
-            return messageItem;
+            return `
+            <li> 
+            <span class='message-box ${directionClass.messageDirection}'>
+            ${message}
+            </span>
+            </li>`;
         }
 
         function renderErrorMessage(){
-            let errorText = $("<p>Something went wrong, Please refresh the page</p>");
-            let errorDiv = $("<div class='error-messages'></div>");
-            errorDiv.append(errorText);
-            return errorDiv;
+            return `<div class ='error-messages'>
+             <p>Something went wrong. Please refresh the page!
+             </p></div>
+            `;
         }
 
 function scrollToBottom(){
