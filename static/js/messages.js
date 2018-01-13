@@ -42,15 +42,20 @@ $(".user-item").on("click", function(){
 
 $("#message-form").on("submit", function(event){
     event.preventDefault();
-    postMessage( 
-        {
-            "recipient_id": $(".all-users").find(".active-user").attr('id'),
-            "conversation_id":  $(".conversation").attr("id"),
-            "message":  $("#message").val()
-        }
-    );
-    $("#message").val("");
-    scrollToBottom();
+    let message = $("#message");
+    
+    if (message.val()){
+        postMessage( 
+            {
+                "recipient_id": $(".all-users").find(".active-user").attr('id'),
+                "conversation_id":  messageBox.attr("id"),
+                "message":  message.val()
+            }
+        );
+        message.val("");
+        scrollToBottom();
+    }
+
 });
 
 
