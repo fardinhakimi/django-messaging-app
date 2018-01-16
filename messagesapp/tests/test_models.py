@@ -1,7 +1,6 @@
 from django.test import TestCase
-from .models import Message, Conversation
+from messagesapp.models import Message, Conversation
 from django.contrib.auth.models import User
-
 
 class ConversationModelTest(TestCase):
 
@@ -52,11 +51,11 @@ class MessageModelTest(TestCase):
     def test_message_read(self):
         value = "new message"
         message = Message.objects.create(value=value,
-                                     owner=self.sender,
-                                     recipient=self.recipient,
-                                     conversation=self.conversation,
-                                     read=True
-                                     )
+                                         owner=self.sender,
+                                         recipient=self.recipient,
+                                         conversation=self.conversation,
+                                         read=True
+                                         )
         self.assertTrue(message.read)
 
     def test_message_sender(self):
@@ -69,3 +68,5 @@ class MessageModelTest(TestCase):
         value = "new message"
         message = Message.create_message(value, self.sender, self.recipient, self.conversation)
         self.assertEquals(self.recipient, message.recipient)
+
+

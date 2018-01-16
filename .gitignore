@@ -3,3 +3,4 @@ myvenv
 .env
 development.py
 db.sqlite3
+staticfiles
