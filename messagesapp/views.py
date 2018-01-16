@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from .models import (Conversation, Message, Join)
 from django.views.generic.list import ListView
 from django.core import serializers
-from .helpers import (does_conversation_exist, get_conversation, read_messages)
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class IndexView(View):
@@ -27,19 +27,7 @@ class UserListView(ListView):
 
 class MessageView(View):
 
-    def post(self, request):
-        recipient = User.objects.get(pk=int(request.POST.get('recipient_id')))
-        sender = request.user
-        conversation = Conversation.objects.get(pk=int(request.POST.get('conversation_id')))
-        value = request.POST.get('message')
-
-        message = Message.objects.create(value=value,
-                                         owner=sender,
-                                         recipient=recipient,
-                                         conversation=conversation
-                                         )
-        message.save()
-
+    def return_message(self, conversation, message, sender, recipient):
         return JsonResponse({"conversation_id": conversation.pk,
                              "message": message.value,
 
@@ -56,31 +44,29 @@ class MessageView(View):
                                  }
                              }
 
-                             })
+                             }, status=200)
+
+    def post(self, request):
+        recipient = User.objects.get(pk=int(request.POST.get('recipient_id')))
+        sender = request.user
+        conversation = Conversation.objects.get(pk=int(request.POST.get('conversation_id')))
+        value = request.POST.get('message')
+
+        message = Message.create_message(value, sender, recipient, conversation)
+
+        if message is not None:
+            return self.return_message(conversation, message, sender, recipient)
+        else:
+            return JsonResponse({"details": "bad request"}, status=400)
+
 
 
 class ConversationView(View):
 
-    def get(self, request):
-        other_user = User.objects.get(pk=int(request.GET.get('user_id')))
-        user = request.user
-        conversation_name = user.username + "-" + other_user.username
-        revers_conversation_name = other_user.username + "-" + user.username
+    def return_conversation_messages(self, request, other_user, conversation):
+        messages = serializers.serialize('json', conversation.messages.all())
 
-        if (does_conversation_exist(conversation_name)):
-            private_conversation = get_conversation(name=conversation_name)
-        elif (does_conversation_exist(revers_conversation_name)):
-            private_conversation = get_conversation(name=revers_conversation_name)
-        else:
-            private_conversation = Conversation.objects.create(name=conversation_name)
-            Join(user=user, conversation=private_conversation).save()
-            Join(user=other_user, conversation=private_conversation).save()
-
-        messages = serializers.serialize('json', private_conversation.messages.all())
-        # read unread messages
-        read_messages(other_user, user)
-
-        return JsonResponse({"conversation_id": private_conversation.pk,
+        return JsonResponse({"conversation_id": conversation.pk,
                              "messages": messages,
 
                              "members": {
@@ -96,4 +82,20 @@ class ConversationView(View):
                                  }
                              }
 
-                             })
+                             }, status=200
+                            )
+
+    def get(self, request):
+        other_user = User.objects.get(pk=int(request.GET.get('user_id')))
+        user = request.user
+
+        conversation = Conversation.get_or_create_conversation(user, other_user)
+
+        if conversation is not None:
+            # read unread messages
+            conversation.read_messages(user)
+
+            # send conversation messages
+            return self.return_conversation_messages(request, other_user, conversation)
+        else:
+            return JsonResponse({"details": "bad request"}, status=400)

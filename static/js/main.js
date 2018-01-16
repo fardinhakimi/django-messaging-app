@@ -5,7 +5,7 @@ $(".user-item").on('click', function(event){
 $(this).addClass("active-user");
 $(this).siblings().removeClass( "active-user");
 toggleViews();
-readMessages();
+readMessages($(this));
 
 });
 
@@ -14,9 +14,10 @@ function toggleViews(){
     $(".chat-info").addClass("hidden");
 }
 
-function readMessages(){
-    $("#username").removeClass('unread-active');
-    $(".unread-notify").remove();
+function readMessages(element){
+
+    element.find(".username").removeClass('unread-active');
+    element.find(".unread-notify").remove();
 }
 
 }());

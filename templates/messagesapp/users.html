@@ -23,7 +23,7 @@
                     <li class="user-item" id="{{user.pk}}">
 
                         {% if un_read_num != 0 %}
-                        <span id="username" class="unread-active">{{user.username}} <span class="unread-notify">{{un_read_num}}</span></span>
+                        <span class="username" class="unread-active">{{user.username}} <span class="unread-notify">{{un_read_num}}</span></span>
                         {%else%}
                         <span>{{user.username}}</span>
                         {%endif%}

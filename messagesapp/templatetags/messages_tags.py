@@ -19,7 +19,6 @@ def get_stats(user_id):
         "received_messages": received_messages_count
     }
 
-
 @register.simple_tag
 def get_unread_messages(sender_id, user_id):
     sender = User.objects.get(pk=sender_id)
