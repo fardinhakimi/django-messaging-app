@@ -55,14 +55,19 @@ class TestRegistrationForm(TestCase):
 class TestAuthenticationForm(TestCase):
 
     def setUp(self):
-
-        self.user = User.objects.create(username = "fardin", password = "test1234")
+        self.user = User.objects.create(username='fardin')
+        self.user.set_password('test1234')
+        self.user.save()
 
     def test_failed_authentication(self):
         form_data = {'username': "unknown", "password" :"incorrect" }
         form = AuthenticationForm(data=form_data)
         self.assertFalse(form.is_valid())
 
+    def test_successful_authentication(self):
+        form_data = {'username': self.user.username, "password": "test1234"}
+        form = AuthenticationForm(data=form_data)
+        self.assertTrue(form.is_valid())
 
     def test_username_field_label(self):
 
